@@ -139,7 +139,7 @@ async function mainMenu(player) {
   const answer = await prompt("\n[0] Play rock paper scissors \n[1] Views stats\n[2] Select a player \n[3] Add a new player \n[4] Remove a player \n[5] Reset everything\n[6] Quit\n\n");
   switch (answer) {
     case "0":
-      game(player, `Hello, ${player}! how many rounds do you want to play?\n`);
+      game(player, `Hello, ${player}! How many rounds do you want to play?\n`, mainMenu);
       break;
     case "1":
       viewStats(player);
