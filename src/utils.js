@@ -5,4 +5,5 @@ const rl = require("readline").createInterface({
 });
 
 const prompt = promisify(rl.question).bind(rl);
-module.exports = { prompt };
+const sleep = (ms) => new Promise((res) => setTimeout(res, ms))
+module.exports = { prompt, sleep };
