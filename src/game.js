@@ -41,7 +41,7 @@ async function game(player, msg, mainMenu) {
       return;
     }
 
-    if (answer > 3 || answer < 0) {
+    if (answer > 2 || answer < 0) {
       game(player, "Please ,.\n[0]Rock\n[1]Paper\n[2]Scissors\n");
       return;
     }
