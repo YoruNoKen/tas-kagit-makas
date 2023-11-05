@@ -36,6 +36,7 @@ async function game(player, msg, mainMenu) {
     console.log(`# Round ${i}\n`);
     const answer = parseInt(await prompt("What do you want to play?\n[0] Rock\n[1] Paper\n[2] Scissors\n"));
     if (isNaN(answer)) {
+      saveResults(roundResults, player);
       mainMenu(player);
       return;
     }
@@ -51,14 +52,19 @@ async function game(player, msg, mainMenu) {
     const beatsBool = beats[selectedElement] === randomElement || (selectedElement === randomElement ? "draw" : false);
     await prompt(`\nRound ${i} over!\nIt was: a ${beatsBool === "draw" ? "draw~" : beatsBool ? "victory!" : "loss.."}\n\nYour pick: ${selectedElement}\nOpponent's pick: ${randomElement}\n\nPress enter to progress into the next round.`);
     roundResults[beatsBool === "draw" ? "draw" : beatsBool ? "victory" : "loss"]++;
-    saveResults(roundResults, player);
     console.clear();
   }
+  saveResults(roundResults, player);
+
+  await prompt(`Game over!\nYou won: ${roundResults.victory} rounds,\nLost ${roundResults.loss},\nand in ${roundResults.draw} of the rounds, it was a draw!\n\npress enter to return back to the main menu`);
+  mainMenu(player);
 }
 
 function saveResults(results, player) {
-  console.log(results);
-  const existingResults = JSON.parse(fs.readFileSync("./stats.json", "utf-8"))[player];
+  const existingResults = JSON.parse(fs.readFileSync("./stats.json", "utf-8"));
+  existingResults[player].victory += results.victory;
+  existingResults[player].loss += results.loss;
+  existingResults[player].draw += results.draw;
 
   fs.writeFileSync("./stats.json", JSON.stringify(existingResults, null, 2));
 }
